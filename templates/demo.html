@@ -1,0 +1,101 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <meta name=author content="Your name here">
+    <title>title here</title>
+</head>
+<body>
+
+    <div class="main_page">
+        <h1>Title</h1>
+        <p id="buttons">
+        <div class="dropdown_candidates">
+            <button class ='cand'>Add</button>
+            <div id="addDropdown" class="dropdown-content-add">
+                <form id="dropDownFormAdd">
+                    <h3>Add Task</h3><br>
+                    Description<br>
+                    <textarea rows = "2" cols="10" name="text" class="text"></textarea><br>
+                    <span>Priority</span> 
+                    <select required name="priority">
+                            <option>Low</option>   
+                            <option>Medium</option>
+                            <option>High</option>
+                    </select><br>
+                    Due Date
+                    <input type="text" name="duedate" id="duedate"><br>
+                    <div class= "tagclass">tag: 
+                        
+                    </div>  
+                    <button type="button" id="formbutton_add">Add</button>
+                    <button type="button" id="formbutton_cancel">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="dropdownSort">
+            <button class="sort">Sort</button>
+                <div id="sortDropdown" class="dropdown-content-sort">
+                    <form id="dropDownFormSort">
+                        <button type="button" id="sortByTag">Sort by Tag</button>
+                        <button type="button" id="sortByID">Sort by ID</button>
+                        <button type="button" id="sortByDate">Sort by Date</button>
+                        <button type="button" id="sortByPriority">Sort by Priority</button>
+                    </form>
+                </div>
+        </div>
+
+
+        <div class="dropdownLocal"> 
+            <button class="local">Local</button>
+                <div id="localDropdown" class="dropdown-content-local">
+                    <form id="dropDownFormLocal">
+                        <button type="button" id="localButtSave">Save</button>
+                        <button type="button" id="localButtLoad">Load</button>
+                    </form>
+                </div>
+        </div>
+        
+        <div class="dropdownTags">
+            <button class="tags">Tags</button>
+            <div id="tagDropDown" class="dropdown-content-tags">
+                <form id="dropDownFormTag">
+                    <h3>Manage Tags</h3>
+                    <h5>Current Tags:</h5>
+                    <div id= 'addedTags'></div>
+                    <h5>Add Tag</h5>
+                    name <input type="text" name="tagName" id="tagName"><br>
+                    color <input type="color" name="tagColor" id="tagColor"><br>
+                    <button type="button" id="formbutton_submit">Submit</button>
+                </form>
+            </div>
+        </div> 
+        </p>
+    </div>
+
+<footer>
+<ul class="validation_icons">
+    <li><a href="//validator.w3.org/check?uri=referer"><img 
+       src="//cs.wellesley.edu/~cs204/Icons/valid-html5v2.png"
+       alt="Valid HTML 5"
+       title="Valid HTML 5"  
+       height="31" width="88"/></a></li>
+
+<li><a href="//jigsaw.w3.org/css-validator/check/referer"><img 
+      style="border:0;width:88px;height:31px"
+      src="//cs.wellesley.edu/~cs204/Icons/vcss.gif"
+      alt="Valid CSS!"/></a></li>
+</ul>
+</footer>
+<!-- JavaScript at the bottom -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cs.wellesley.edu/~anderson/js/bounds/bounds-plugin.js"></script>
+
+</body>
+</html>

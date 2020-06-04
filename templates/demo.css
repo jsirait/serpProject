@@ -1,0 +1,113 @@
+
+/* Made by Jennifer and Diana */
+
+#controller_buttons {
+    margin-left: 3.5em; 
+}
+
+#formbutton {
+    width: 100px;
+    height: 40px;
+    font-size: 9px; 
+    padding: 0; 
+}
+
+#controller_buttons > button {
+    width: 200px;
+    height: 50px;
+    font-size: 16px; 
+    
+}
+
+#tagDeleteButton {
+    margin-right: 10px; 
+}
+
+#example { 
+    background-color: lightskyblue;
+}
+
+.tags:hover, .tags:focus, .sort:hover, .sort:focus,
+ .local:hover, .local:focus, .add:hover, .add:focus  {
+    background-color: rgba(243, 157, 136, 0.308);
+}
+
+#formbutton_candidates:hover, #formbutton_candidates:focus, 
+#formbutton_cancel:hover, #formbutton_cancel.sort:focus,
+ #localButtSave:hover, #localButtSave:focus, 
+ #localButtLoad:hover,  #localButtLoad:focus
+ #sortByTag:hover, #sortByTag:focus,
+ #sortByID:hover, #sortByID:focus,
+ #sortByDate:hover, #sortByDate:focus,
+ #sortByPriority:hover, #sortByPriority:focus {
+    background-color: rgba(243, 157, 136, 0.308);
+}
+
+.dropdownAdd {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdownLocal {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdownSort {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdownTags {
+    position: relative;
+    display: inline-block;
+  }
+
+.dropdown-content-add {
+    display: none;
+    position: absolute;
+    background-color: rgb(240, 255, 240);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: fit-content; 
+    height: fit-content
+}
+
+
+.dropdown-content-local {
+    display: none;
+    position: absolute;
+    background-color:  rgb(240, 255, 240);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: 215px; 
+    height: 43px;
+}
+
+.dropdown-content-sort {
+    display: none;
+    position: absolute;
+    background-color:  rgb(240, 255, 240);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: fit-content; 
+    height: 200px;
+}
+
+.dropdown-content-tags {
+    display: none;
+    position: absolute;
+    background-color:  rgb(240, 255, 240);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: 250px; 
+    height: fit-content;
+}
+
+.show {display:block;}
+
+.done { opacity: 0.5; border-style: dotted; }

@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+{% extends "layout.html" %}
+{% block app_content %}
+
+<head>
+</head>
+
+<body>
+    <!-- In HTML when one line is an error, won't execute the next lines -->    
+
+     <!-- <div id="graph-3"></div> -->
+     <div class="showcase__section" id="bubble">
+        <div class="spacer --small"></div>
+        <div id="bubbleplots">
+          <div class="bubbleplot" data-num="0">
+            <div class="plot" id="graph-3"></div>
+            <form action="{{url_for('createHeatmap')}}" method="POST">
+
+                Candidates: <select name = "cands" class="candidateData">
+                </select>
+                <input type='submit' value='submit'>
+            </form>
+          </div>
+        </div>
+      </div>
+
+</body>
+
+
+<footer>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- updated -->
+
+    <script type="text/javascript">
+
+        // we draw our heatmap here
+        var hmapData = {{hmap_data | safe}};
+        var candidatesList = {{candidateList | safe}};
+        // var currentCandidate = {{currentCandidate | safe}};
+
+        var innerContainer = document.querySelector('[data-num="0"'),
+        plotEl = innerContainer.querySelector('.plot'),
+        candSelector = innerContainer.querySelector('.candidateData');
+
+        function assignOptions(textArray, selector) {
+            for (var i = 0; i < textArray.length;  i++) {
+                var currentOption = document.createElement('option');
+                currentOption.text = textArray[i];
+                selector.appendChild(currentOption);
+            }
+        }
+
+        function plotting(){
+            //data is a list, layout is a dict
+            Plotly.plot("graph-3",
+                    data=[{
+                        "x":hmapData[0],
+                        "y":hmapData[1],
+                        "z":hmapData[2],
+                        "type":"heatmap",
+                        "colorscale": "Viridis"
+                    }],
+                    layout={
+                        "title":"Freq of sources mentioning {} for every position", // idk how to format a string in javascript
+                        "updatemenus":[{
+                            "y":0.8,
+                            "yanchor":"top",
+                            "type":"dropdown",
+                            "buttons":[{
+                                            "method": "restyle",
+                                            "args" : ["colorscale", "Viridis"],
+                                            "label" : "Viridis"
+                                        }, {
+                                            "method": "restyle",
+                                            "args" : ["colorscale", "Greens"],
+                                            "label" : "Greens"
+                                    }
+                                ]            
+                            }]
+                    });
+        }
+
+        // var currentCand = document.getElementById("cands").text;
+
+        
+        plotting();
+        assignOptions(candidatesList, candSelector);
+        
+        
+            
+        
+
+
+
+        // Plotly.newPlot("graph-0", graphs[0].data, graphs[0].layout, {scrollZoom:true});
+        // Plotly.newPlot("graph-2", graphs[2].data, graphs[2].layout);
+        
+    </script>
+</footer>
+{% endblock %}
+</html>

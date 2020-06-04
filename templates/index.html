@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html>
+{% extends "layout.html" %}
+{% block app_content %}
+<head>
+    <h1>Analysis of Media Coverage of the 2020 Election</h1>
+</head>
+
+<body>
+    
+    <h4>Learn more about a specific candidate:
+    By clicking on the candidate's name on the dropdown menu 'Candidate' above! </h4>
+
+    Examples of graphs:
+    {% for id in ids %}
+        <h3>{{id}}</h3>
+        <div id="{{id}}"></div>
+    {% endfor %}
+
+    <!-- In HTML when one line is an error, won't execute the next lines -->    
+
+     <!-- <div id="graph-0"></div>  -->
+     <!-- <div id="graph-2"></div>  -->
+
+</body>
+
+
+<footer>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- updated -->
+
+    <script type="text/javascript">
+
+        var graphs = {{graphJSON | safe}};
+        var ids = {{ids | safe}};
+
+        
+        for(var i in graphs) {
+           
+            Plotly.plot(ids[i], // the ID of the div, created above
+                        graphs[i].data,
+                        graphs[i].layout || {});
+        }
+
+
+
+        // Plotly.newPlot("graph-0", graphs[0].data, graphs[0].layout, {scrollZoom:true});
+        // Plotly.newPlot("graph-2", graphs[2].data, graphs[2].layout);
+        
+    </script>
+</footer>
+{% endblock %}
+</html>

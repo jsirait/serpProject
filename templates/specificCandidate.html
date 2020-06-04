@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+{% extends "layout.html" %}
+{% block app_content %}
+<head>
+</head>
+
+<body>
+
+    <h1> {{ username }} <h1></h1>
+
+    <p>
+        Political Party: {{party}} <br>
+        State: {{ state }} <br>
+        Current Occupation: {{ occupation }} <br>
+        Appears in total of <b>{{num_articles}}</b> news articles out of <b>{{totalArticlesNum}}</b> news articles collected.
+    </p>
+
+    <div class="plot" id="graph-tn"></div>
+
+</body>
+
+<footer>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- updated -->
+
+    <script type="text/javascript">
+
+        var graphs = {{graph | safe}};
+        
+
+        
+        Plotly.plot("graph-tn", graphs.data, graphs.layout || {});
+        
+        
+    </script>
+</footer>
+{% endblock %}
+</html>
