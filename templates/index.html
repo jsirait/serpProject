@@ -4,24 +4,86 @@
 {% extends "layout.html" %}
 {% block app_content %}
 <head>
-    <h1>Analysis of Media Coverage of the 2020 Election</h1>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <div class="container text-left">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Analysis of Media Coverage of the 2020 Election</h1>
+                <p> Lorem 20 </p>
+            </div>
+        </div>
+    </div>
 </head>
 
 <body>
-    
-    <h4>Learn more about a specific candidate:
-    By clicking on the candidate's name on the dropdown menu 'Candidate' above! </h4>
+    <header>
+        <div class="container text-left">
+        <div class="row">
+            <div class="col-md-7 col-sm-12">
+                <h3>Google Algorithm Auditing</h3>
+                <p>(Some description about the project)</p>
+                <p>This is by Cred Lab... Lorem 20</p>
+                <button class="btn btn-light px-4 py-2">Learn more about CredLab</button>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <h6>Learn more about a specific candidate by clicking on the candidate's name on the dropdown menu 'Candidate' above!</h6>
+            </div>
+         </div>
+     </div>
+    </header>
 
-    Examples of graphs:
-    {% for id in ids %}
-        <h3>{{id}}</h3>
-        <div id="{{id}}"></div>
-    {% endfor %}
+    <!--Examples of graphs:-->
+    <!--{% for id in ids %}-->
+    <!--    <h3>{{id}}</h3>-->
+    <!--    <div id="{{id}}"></div>-->
+    <!--{% endfor %}-->
 
-    <!-- In HTML when one line is an error, won't execute the next lines -->    
+    <main>
+        <section class="section-1">
+            <div class="container text-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>The graph below shows the number of distinct news articles
+                        written about each candidate.</h4>
+                        <p>(And then here maybe we can write some more explanation
+                        about the graph?)</p>
+                        <div id="graph-0"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-     <!-- <div id="graph-0"></div>  -->
-     <!-- <div id="graph-2"></div>  -->
+        <section class="section-1">
+            <div class="container text-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>The graph below shows the number of distinct news articles
+                        written by each of the top 25 news sources</h4>
+                        <p>(Here maybe we can write more about news sources, for example
+                        we can explain the 3 tiers of news sources and how the top tier which
+                        supplies a third of the total news articles only consists
+                        of eight news sources)</p>
+                        <div id="graph-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--<section class="section-2">-->
+        <!--    <div class="candidates row">-->
+        <!--        {% for candidate in candidateNames %}-->
+        <!--            <div class="col-md-2 col-sm-6 text-center">-->
+        <!--                <a href="{{url_for('specCand', username=candidate)}}">-->
+        <!--                <div class="card">-->
+        <!--                    <i class="far fa-user"></i>-->
+        <!--                    <h4>{{candidate}}</h4>-->
+        <!--                </div>-->
+        <!--                </a>-->
+        <!--            </div>-->
+        <!--        {% endfor %}-->
+        <!--    </div>-->
+        <!--</section>-->
+    </main>
 
 </body>
 
@@ -38,20 +100,21 @@
 
         var graphs = {{graphJSON | safe}};
         var ids = {{ids | safe}};
-
-        
-        for(var i in graphs) {
-           
-            Plotly.plot(ids[i], // the ID of the div, created above
-                        graphs[i].data,
-                        graphs[i].layout || {});
-        }
+        // var candidateNames = {{candidateNames | safe}};
 
 
+    //     for(var i in graphs) {
 
-        // Plotly.newPlot("graph-0", graphs[0].data, graphs[0].layout, {scrollZoom:true});
-        // Plotly.newPlot("graph-2", graphs[2].data, graphs[2].layout);
-        
+    //         Plotly.plot(ids[i], // the ID of the div, created above
+    //                     graphs[i].data,
+    //                     graphs[i].layout || {});
+    //     }
+
+
+
+    Plotly.newPlot("graph-0", graphs[0].data, graphs[0].layout, {scrollZoom:true});
+    Plotly.newPlot("graph-2", graphs[1].data, graphs[1].layout, {scrollZoom:true});
+
     </script>
 </footer>
 {% endblock %}

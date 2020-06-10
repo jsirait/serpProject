@@ -45,7 +45,7 @@ try:
         candidateName = tuples[0]
         # seeing how many time that query appears = how many articles there are
         mycursor.execute(
-            "SELECT COUNT(title) FROM thirtyCandidates WHERE query = (%s)", (candidateName,)
+            "SELECT COUNT(distinct title) FROM thirtyCandidates WHERE query = (%s)", (candidateName,)
         )
         articleNum = mycursor.fetchall()
         cand_articleNum_dict[candidateName] = articleNum[0][0] # to accomodate how data is fetched
@@ -53,15 +53,21 @@ try:
 
     # print(str(cand_articleNum_dict))
 
-    keys = [i for i in cand_articleNum_dict.keys()]
-    values = [j for j in cand_articleNum_dict.values()]
+    # keys = [i for i in cand_articleNum_dict.keys()]
+    # values = [j for j in cand_articleNum_dict.values()]
+    flist = [(k,v) for k,v in cand_articleNum_dict.items()]
+    flist.sort(key=lambda x:x[1], reverse=True)
+    keys = [i[0] for i in flist]
+    values=[i[1] for i in flist]
 
     # --- making bar chart or scatter graph of domains and their frequencies ---
 
     sourceFrequency = {} # source : domain, count or maybe just count?
-    instruction = "select source, count(*) from thirtyCandidates group by source"
+    instruction = "select source, count(distinct title) as c from thirtyCandidates group by source order by c desc limit 25;"
     mycursor.execute(instruction)
     sources = mycursor.fetchall()
+    mycursor.close()
+    mydb.close()
 
     # print(str(sources)) ('WSHU', 26)
 
@@ -80,7 +86,23 @@ try:
         Returns the list [x, y, z] value for the heatmap to be created.
         So in this case, [[1:11], [3 news sources], [corresponding frequencies]]
     '''
-    def heatmappy(kandidat):
+except IOError as e:
+    print(e)
+
+
+# ---------------------------
+# | making heatmap (tryout) |
+# ---------------------------
+def heatmappy(kandidat):
+    try:
+        mydb = pymysql.connect(
+            host = "jsirait.mysql.pythonanywhere-services.com",
+            user = "jsirait",
+            password = "midnightjasmine",
+            database = "jsirait$election2020"
+            )
+
+        mycursor = mydb.cursor()
         # based on news source ---
         # hm_instruction = "select source, position, count(*) from thirtyCandidates where query = (%s) group by source, position;"
         hm_sourcesList = []
@@ -102,15 +124,31 @@ try:
                 count = mycursor.fetchall()
                 sourceCount.append(count[0][0])
             forz.append(sourceCount)
-            print(hold)
+            # print(hold)
+        mycursor.close()
+        mydb.close()
         return [[i for i in range(1,11)], hm_sourcesList, forz]
+    except IOError as e:
+        print(e)
 
     # ^^^ works but takes so much time to run ...
 
 
     # ----------------------------------------------------------------------
-    # --- making '5 Top News Source talking about a candidate' bar graph ---
-    def topns(tn_candidate):
+    # |   making '5 Top News Source talking about a candidate' bar graph   |
+    # ----------------------------------------------------------------------
+def topns(tn_candidate):
+    try:
+        mydb = pymysql.connect(
+            host = "jsirait.mysql.pythonanywhere-services.com",
+            user = "jsirait",
+            password = "midnightjasmine",
+            database = "jsirait$election2020"
+        )
+
+    # --- making bar chart candidates and # of articles ---
+
+        mycursor = mydb.cursor()
         tn_sourceFreq = {}
         mycursor.execute("select source,count(*) as count from thirtyCandidates where query=(%s) group by source order by count desc limit 5;",
                 (tn_candidate,)) # choosing 5 top sources
@@ -119,9 +157,6 @@ try:
             source = tuples[0]
             freq = tuples[1]
             tn_sourceFreq[source] = freq
-
-        # mycursor.execute("select count(title) from thirtyCandidates where query=(%s);",(tn_candidate))
-        # fetched0 = mycursor.fetchall()
 
         tn_source = [ii for ii in tn_sourceFreq.keys()]
         tn_freqs = [jj for jj in tn_sourceFreq.values()]
@@ -133,13 +168,34 @@ try:
         else:
             fetched1=temp[0]
         # print(fetched1)
+        mycursor.close()
+        mydb.close()
         return [tn_source,tn_freqs,fetched1[0],fetched1[1],fetched1[2],cand_articleNum_dict[tn_candidate]]
+    except IOError as e:
+        print(e)
 
+#--------------------------------------------
+#| making box plot for individual candidate |
+#--------------------------------------------
+def bp(bp_candidate):
+    try:
+        mydb = pymysql.connect(
+            host = "jsirait.mysql.pythonanywhere-services.com",
+            user = "jsirait",
+            password = "midnightjasmine",
+            database = "jsirait$election2020"
+        )
+        mycursor = mydb.cursor()
+        mycursor.execute("select freshness_in_mins from thirtyCandidates where freshness_in_mins IS NOT NULL and freshness_in_mins < 45000 and query=(%s)",
+            (bp_candidate,))
+        bp_temp = mycursor.fetchall()
+        freshness = [element[0] for element in bp_temp]
+        mycursor.close()
+        mydb.close()
+        return freshness
+    except IOError as e:
+        print(e)
 
-    # have not closed mydb and mycursor
-
-except IOError as e:
-    print(e)
 
 @app.route('/')
 def index():
@@ -157,7 +213,8 @@ def index():
                 )
             ],
             layout=dict(
-                title='Total Number of Articles'
+                title='Number of Non-distinct Articles per Candidate',
+                yaxis = dict(title="Number of articles")
             )
         ),
 
@@ -166,13 +223,17 @@ def index():
                 dict(
                     x=source,
                     y=freqs,
-                    type='scatter',
-                    marker=[dict(line=dict(color='brickred'))]
+                    type='bar',
+                    marker=dict(
+                        color='rgb(142,124,195)'
+                        )
                 )
             ],
-            layout={
-                "title":"Freqs of News Source"
-            }
+            layout=dict(
+                title="Number of Distinct Articles from the Top 25 News Source",
+                xaxis = dict(title="News Source names", automargin="true",tickangle='40'),
+                yaxis = dict(title="Number of articles")
+            )
         )
     ]
 
@@ -188,23 +249,20 @@ def index():
 
     return render_template('index.html',
                            ids=ids,
-                           graphJSON=graphJSON)
+                           graphJSON=graphJSON,
+                           candidateNames = candidates)
 
-@app.route('/heatmap', methods=['GET', 'POST'])
-def createHeatmap():
-    currentCandidate = "Bernie Sanders"
-    candidateList = [ii[0] for ii in candidates]
-    # print(candidateList[:5])
-    if request.method == 'POST':
-        currentCandidate = request.form['cands']
-    hmap_data = heatmappy(currentCandidate)
-    # print(hmap_data[1])
-    return render_template('heatmap.html', hmap_data=hmap_data, candidateList=candidateList,
-        currentCandidate=currentCandidate)
-
-@app.route('/demo')
-def demo():
-    return render_template('demo.html')
+# @app.route('/heatmap', methods=['GET', 'POST'])
+# def createHeatmap():
+#     currentCandidate = "Bernie Sanders"
+#     candidateList = [ii[0] for ii in candidates]
+#     # print(candidateList[:5])
+#     if request.method == 'POST':
+#         currentCandidate = request.form['cands']
+#     hmap_data = heatmappy(currentCandidate)
+#     # print(hmap_data[1])
+#     return render_template('heatmap.html', hmap_data=hmap_data, candidateList=candidateList,
+#         currentCandidate=currentCandidate)
 
 @app.route('/<username>')
 def specCand(username):
@@ -223,14 +281,31 @@ def specCand(username):
                 )
             ],
             layout=dict(
-                title="5 top news sources"
+                title="5 top news sources",
+                xaxis = dict(title="News sources"),
+                yaxis = dict(title="Number of (non-distinct) articles collected")
             )
         )
     party = "Democrat" if sc_data[2] == 0 else "Republican"
     state = sc_data[3]
     occupation = sc_data[4]
+
+    bp_data = bp(username)
+    graph1 = dict(
+            data=[
+                dict(
+                    x=bp_data,
+                    type='box'
+                    )
+            ],
+            layout=dict(
+                title="Distribution of the freshness of news articles",
+                xaxis = dict(title="Freshness in minutes")
+            )
+        )
     return render_template('specificCandidate.html', username=username, graph=graph,
-        party=party, state=state, occupation=occupation, num_articles=sc_data[5], totalArticlesNum=totalArticlesNum)
+        party=party, state=state, occupation=occupation, num_articles=sc_data[5], totalArticlesNum=totalArticlesNum,
+        graph1 = graph1)
 
 if __name__ == '__main__':
     app.run(port=9990)

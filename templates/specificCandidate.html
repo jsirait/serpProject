@@ -6,17 +6,63 @@
 </head>
 
 <body>
+    <header>
+    <section class="section-1">
+    <div class="container">
+        <div class="row">
+            <div class="card mr-2 d-inline-block shadow-lg text-left">
+            <div class="col-md-7 col-sm-12">
+                <h1> {{ username }} <h1></h1>
+                <p> Political Party: {{party}} <br>
+                State: {{ state }} <br>
+                Current Occupation: {{ occupation }} <br>
+                Appears in total of <b>{{num_articles}}</b> news articles out of <b>{{totalArticlesNum}}</b> non-distinct news articles collected.
+                </p>
+            </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <div class="card mr-2 d-inline-block shadow-lg text-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Joe_Biden_official_portrait_2013_cropped.jpg/800px-Joe_Biden_official_portrait_2013_cropped.jpg" alt="Joe Biden's official photo" width="200" height="240">
+                <p>Source: wikidata</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    </header>
 
-    <h1> {{ username }} <h1></h1>
+    <main>
+    <section class="section-2">
+    <div class="container text-left">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Top 5 news sources that write about {{username}}</h3>
+                <p>Note: You can select "Distinct articles" to see the news sources that
+                write the most articles about this candidate, or "Nondistinct articles"
+                to see the news sources whose articles stay presented in the Google
+                Top Stories panel for the longest time (hence collected multiple times).</p>
+                <div class="plot" id="graph-tn"></div>
+            </div>
+        </div>
+    </div>
+    </section>
 
-    <p>
-        Political Party: {{party}} <br>
-        State: {{ state }} <br>
-        Current Occupation: {{ occupation }} <br>
-        Appears in total of <b>{{num_articles}}</b> news articles out of <b>{{totalArticlesNum}}</b> news articles collected.
-    </p>
-
-    <div class="plot" id="graph-tn"></div>
+    <section class="section-2">
+        <div class="container text-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Freshness distribution of the articles about {{username}}
+                    presented un Google Top Stories panel</h3>
+                    <p> Below is a box plot representing the distribution of the freshness (in minutes) of the news articles written about this candidate. <br>
+                    News articles that have freshness of older than a month are discarded (there aren't that many).</p>
+                    <p> Note that freshness of less than 60 minutes means that the article stays on the panel for
+                    about an hour, 1440 minutes means for one day, 10k minutes means for a week.</p>
+                    <div class="plot" id="graph-bp"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
 
 </body>
 
@@ -31,12 +77,11 @@
     <script type="text/javascript">
 
         var graphs = {{graph | safe}};
-        
+        var graphs1 = {{graph1 | safe}};
 
-        
-        Plotly.plot("graph-tn", graphs.data, graphs.layout || {});
-        
-        
+        Plotly.newPlot("graph-tn", graphs.data, graphs.layout, {scrollZoom:true});
+        Plotly.newPlot("graph-bp", graphs1.data, graphs1.layout, {scrollZoom:true});
+
     </script>
 </footer>
 {% endblock %}
