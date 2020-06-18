@@ -4,86 +4,388 @@
 {% extends "layout.html" %}
 {% block app_content %}
 <head>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <div class="container text-left">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Analysis of Media Coverage of the 2020 Election</h1>
-                <p> Lorem 20 </p>
-            </div>
-        </div>
-    </div>
+    {{super()}}
+    <script src="https://use.fontawesome.com/e5e8385fee.js"></script>
 </head>
 
 <body>
     <header>
-        <div class="container text-left">
+        <section class="section-1">
+    <div class="container text-left">
         <div class="row">
-            <div class="col-md-7 col-sm-12">
-                <h3>Google Algorithm Auditing</h3>
-                <p>(Some description about the project)</p>
-                <p>This is by Cred Lab... Lorem 20</p>
-                <button class="btn btn-light px-4 py-2">Learn more about CredLab</button>
+            <div class="col-md-12 col-sm-12">
+                <h1>Analysis of Media Coverage of the 2020 Election</h1>
+                <p>Perhaps here we can write about the project description and what this web app is about.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-            <div class="col-md-5 col-sm-12">
-                <h6>Learn more about a specific candidate by clicking on the candidate's name on the dropdown menu 'Candidate' above!</h6>
-            </div>
-         </div>
-     </div>
+        </div>
+    </div>
+    </section>
     </header>
 
-    <!--Examples of graphs:-->
-    <!--{% for id in ids %}-->
-    <!--    <h3>{{id}}</h3>-->
-    <!--    <div id="{{id}}"></div>-->
-    <!--{% endfor %}-->
 
     <main>
-        <section class="section-1">
-            <div class="container text-left">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>The graph below shows the number of distinct news articles
-                        written about each candidate.</h4>
-                        <p>(And then here maybe we can write some more explanation
-                        about the graph?)</p>
-                        <div id="graph-0"></div>
-                    </div>
+
+
+    <section class="general-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h4>Learn morea about each candidate:</h4>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-1">
-            <div class="container text-left">
+    <section class="section-2">
+        <div class="container">
+            <div class="row"> <!--First row-->
+                <div class="col"></div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Donald Trump')}}">
+                        <div class="card d-flex row-flex align-content-center text-center">
+                            <!--<i class="fa fa-user-o" py-2 pr-3></i>-->
+                            <p>Donald Trump</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand', username='Joe Biden')}}">
+                        <div class="card text-center">
+                            <p>Joe Biden</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row"> <!--Second row-->
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Bernie Sanders')}}">
+                        <div class="card text-center">
+                            <p>Bernie<br>Sanders</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Elizabeth Warren')}}">
+                        <div class="card text-center">
+                            <p>Elizabeth<br>Warren</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Pete Buttigieg')}}">
+                        <div class="card text-center">
+                            <p>Pete<br>Buttigieg</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Amy Klobuchar')}}">
+                        <div class="card text-center">
+                            <p>Amy<br>Klobuchar</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Tom Steyer')}}">
+                        <div class="card text-center">
+                            <p>Tom<br>Steyer</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Michael Bloomberg')}}">
+                        <div class="card text-center">
+                            <p>Michael<br>Bloomberg</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Tulsi Gabbard')}}">
+                        <div class="card text-center">
+                            <p>Tulsi<br>Gabbard</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row"> <!--Third row-->
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Andrew Yang')}}">
+                        <div class="card text-center">
+                            <p>Andrew<br>Yang</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Cory Booker')}}">
+                        <div class="card text-center">
+                            <p>Cory<br>Booker</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Kamala Harris')}}">
+                        <div class="card text-center">
+                            <p>Kamala<br>Harris</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Deval Patrick')}}">
+                        <div class="card text-center">
+                            <p>Deval<br>Patrick</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Michael Bennet')}}">
+                        <div class="card text-center">
+                            <p>Michael<br>Bennet</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='John Delaney')}}">
+                        <div class="card text-center">
+                            <p>John<br>Delaney</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Marianne Williamson')}}">
+                        <div class="card text-center">
+                            <p>Marianne<br>Williamson</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row"> <!--Fourth row-->
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Julian Castro')}}">
+                        <div class="card text-center">
+                            <p>Julian<br>Castro</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Steve Bullock')}}">
+                        <div class="card text-center">
+                            <p>Steve<br>Bullock</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Wayne Messam')}}">
+                        <div class="card text-center">
+                            <p>Wayne<br>Messam</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Beto O Rourke')}}">
+                        <div class="card text-center">
+                            <p>Beto<br>O Rourke</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Tim Ryan')}}">
+                        <div class="card text-center">
+                            <p>Tim<br>Ryan</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Bill de Blasio')}}">
+                        <div class="card text-center">
+                            <p>Bill<br>de Blasio</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Kirsten Gillibrand')}}">
+                        <div class="card text-center">
+                            <p>Kirsten<br>Gillibrand</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row"> <!--First row-->
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Seth Moulton')}}">
+                        <div class="card text-center">
+                            <p>Seth<br>Moulton</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Jay Inslee')}}">
+                        <div class="card text-center">
+                            <p>Jay<br>Inslee</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='John Hickenlooper')}}">
+                        <div class="card text-center">
+                            <p>John<br>Hickenlooper</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Mike Gravel')}}">
+                        <div class="card text-center">
+                            <p>Mike<br>ravel</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Eric Swalwell')}}">
+                        <div class="card text-center">
+                            <p>Eric<br>Swalwell</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Howard Schultz')}}">
+                        <div class="card text-center">
+                            <p>Howard<br>Schultz</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('specCand',username='Bill Weld')}}">
+                        <div class="card text-center">
+                            <p>Bill<br>Weld</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="general-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h4>Learn more about each top-tier news source:</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section-3">
+        <div class="container">
+            <!--We have 8 top news source-->
+            {% for ii in range(4,9,4) %}
                 <div class="row">
-                    <div class="col-md-12">
-                        <h4>The graph below shows the number of distinct news articles
-                        written by each of the top 25 news sources</h4>
-                        <p>(Here maybe we can write more about news sources, for example
+                    {% for ns in top_tier[ii-4:ii] %}
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <a href="#">
+                                <div class="card justify-content-center">
+                                    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                    <p>{{ns}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <section class="general-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h4>Distinct news articles written about each candidate</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section-4">
+        <div class="container text-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>(And then here maybe we can write some more explanation
+                        about the graph?)</p>
+                    <div id="graph-0"></div>
+                </div>
+            </div>
+    </div>
+    </section>
+
+    <section class="general-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h4>Distinct news articles written by the top 25 news sources</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-4">
+        <div class="container text-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>(Here maybe we can write more about news sources, for example
                         we can explain the 3 tiers of news sources and how the top tier which
                         supplies a third of the total news articles only consists
                         of eight news sources)</p>
-                        <div id="graph-2"></div>
+                    <div id="graph-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="general-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h4>Likelihood of seeing articles from source Y given position X</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="section-4">
+            <div class="container text-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>(Here goes a little description of the graph)</p>
+                        <div id="graph-4"></div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!--<section class="section-2">-->
-        <!--    <div class="candidates row">-->
-        <!--        {% for candidate in candidateNames %}-->
-        <!--            <div class="col-md-2 col-sm-6 text-center">-->
-        <!--                <a href="{{url_for('specCand', username=candidate)}}">-->
-        <!--                <div class="card">-->
-        <!--                    <i class="far fa-user"></i>-->
-        <!--                    <h4>{{candidate}}</h4>-->
-        <!--                </div>-->
-        <!--                </a>-->
-        <!--            </div>-->
-        <!--        {% endfor %}-->
-        <!--    </div>-->
-        <!--</section>-->
     </main>
+
+    <footer>
+        <div class="container text-left">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h3>Google Algorithm Auditing</h3>
+                <p>(Some description about CredLab's prroject.)</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <button class="btn btn-light px-4 py-2">Learn more about CredLab</button>
+            </div>
+         </div>
+        </div>
+    </footer>
 
 </body>
 
@@ -98,22 +400,46 @@
 
     <script type="text/javascript">
 
-        var graphs = {{graphJSON | safe}};
-        var ids = {{ids | safe}};
-        // var candidateNames = {{candidateNames | safe}};
+        var graphs2 = {{graphs2 | safe}};
+        var graphs3 = {{graphs3 | safe}};
+        var graphs4 = {{graphs4 | safe}};
+        var candidateNames = {{candidateNames | safe}};
+        var top_tier = {{top_tier | safe }};
 
 
-    //     for(var i in graphs) {
+    Plotly.newPlot("graph-0", graphs2.data, graphs2.layout);
+    Plotly.newPlot("graph-2", graphs3.data, graphs3.layout);
 
-    //         Plotly.plot(ids[i], // the ID of the div, created above
-    //                     graphs[i].data,
-    //                     graphs[i].layout || {});
-    //     }
+    var data4 = graphs4.data;
+    var layout4 = graphs4.layout;
+    var zValues = data4[0]['z'];
+    var xValues = data4[0]['x'];
+    var yValues = data4[0]['y'];
 
+    for ( var i = 0; i < yValues.length; i++ ) {
+        for ( var j = 0; j < xValues.length; j++ ) {
+            var currentValue = zValues[i][j];
+            var result = {
+                xref: 'x1',
+                yref: 'y1',
+                x: xValues[j],
+                y: yValues[i],
+                text: zValues[i][j],
+                font: {
+                    family: 'Arial',
+                    size: 12,
+                    color: 'rgb(50, 171, 96)'
+                },
+                showarrow: false,
+                font: {
+                    color: 'black'
+                    }
+            };
+            layout4.annotations.push(result);
+        }
+    }
 
-
-    Plotly.newPlot("graph-0", graphs[0].data, graphs[0].layout, {scrollZoom:true});
-    Plotly.newPlot("graph-2", graphs[1].data, graphs[1].layout, {scrollZoom:true});
+    Plotly.newPlot("graph-4", data4, layout4,{showSendToCloud: true});
 
     </script>
 </footer>
