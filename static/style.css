@@ -53,13 +53,13 @@ header .dropdown-menu {
     padding: 15vmin 0vmin 3vmin 0vmin;
 }
 
-.section-1 .row .col-md-12 > h1 {
+.section-1 .row .col-md-12>h1 {
     font-family: var(--playfair);
 }
 
 .general-title {
     font-family: var(--playfair);
-    padding: 2.5vmin 0 1vmin 0;
+    padding: 10vmin 0 1vmin 0;
     align-content: center;
 }
 
@@ -68,10 +68,18 @@ header .dropdown-menu {
     margin-top: auto;
 }
 
+.section-2 .row .col .card p {
+    margin: 0.4vmin;
+}
+
 .section-2 .row {
     padding-bottom: 1vmin;
 }
 
+.section-3 .row {
+    padding-bottom: 1vmin;
+}
+
 footer {
-    background-color: rgba(235,235,235,0.2);
+    background-color: rgba(202, 201, 201, 0.2);
 }

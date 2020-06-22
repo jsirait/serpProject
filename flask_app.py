@@ -46,7 +46,7 @@ try:
             "SELECT COUNT(distinct query,URL) FROM thirtyCandidates WHERE query = (%s)", (candidateName,)
         )
         articleNum = mycursor.fetchall()
-        cand_articleNum_dict[candidateName] = articleNum[0][0] # to accomodate how data is fetched
+        cand_articleNum_dict[candidateName] = articleNum[0][0] # DISTINCT ARTICLES
 
     # print(str(cand_articleNum_dict))
 
@@ -106,53 +106,6 @@ except IOError as e:
     print(e)
 
 
-# ---------------------------
-# | making heatmap (tryout) |
-# ---------------------------
-    '''
-        Returns the list [x, y, z] value for the heatmap to be created.
-        So in this case, [[1:11], [3 news sources], [corresponding frequencies]]
-    '''
-def heatmappy(kandidat):
-    try:
-        mydb = pymysql.connect(
-            host = "jsirait.mysql.pythonanywhere-services.com",
-            user = "jsirait",
-            password = "midnightjasmine",
-            database = "jsirait$election2020"
-            )
-
-        mycursor = mydb.cursor()
-        # based on news source ---
-        # hm_instruction = "select source, position, count(*) from thirtyCandidates where query = (%s) group by source, position;"
-        hm_sourcesList = []
-        hm_candidate = kandidat
-        hm1 = mycursor.execute("select distinct source from thirtyCandidates where query = (%s) limit 3",
-                (hm_candidate)) # choosing 3 random sources
-        hm_sourcesTuples = mycursor.fetchall()
-
-        # then we iterate through all possible news source and see how many there are for each position
-        forz = []
-        hold = 0
-        for aa in hm_sourcesTuples:
-            hold+=1
-            sourceCount = []
-            hm_sourcesList.append(aa[0])
-            for position in range(1,11):
-                hm3 = mycursor.execute("select count(*) from thirtyCandidates where query = (%s) and source = (%s) and position = (%s)",
-                (hm_candidate, aa[0], position))
-                count = mycursor.fetchall()
-                sourceCount.append(count[0][0])
-            forz.append(sourceCount)
-            # print(hold)
-        mycursor.close()
-        mydb.close()
-        return [[i for i in range(1,11)], hm_sourcesList, forz]
-    except IOError as e:
-        print(e)
-
-    # ^^^ works but takes so much time to run ...
-
 
     # ----------------------------------------------------------------------
     # |   making '10 Top News Source talking about a candidate' bar graph   |
@@ -181,16 +134,24 @@ def topns(tn_candidate):
         tn_source = [ii for ii in tn_sourceFreq.keys()]
         tn_freqs = [jj for jj in tn_sourceFreq.values()]
 
+        mycursor.execute("select count(distinct domain), count(URL) from thirtyCandidates where query=(%s);", (tn_candidate,))
+        temp0 = mycursor.fetchall()
+        totArtic = "--"
+        distSource = "--"
+        if len(temp0) > 0:
+            distSource = temp0[0][0]
+            totArtic = temp0[0][1]
+
         mycursor.execute("select party,state,current_occupation, photo_link from candidates where name=(%s);",(tn_candidate,))
         temp = mycursor.fetchall()
         if len(temp) == 0:
-            return [None,None,None,None,None,"#",None]
+            return [None,None,None,None,None,"#",None, totArtic, distSource]
         else:
             fetched1=temp[0]
-        # print(fetched1)
+
         mycursor.close()
         mydb.close()
-        return [tn_source,tn_freqs,fetched1[0],fetched1[1],fetched1[2],fetched1[3],cand_articleNum_dict[tn_candidate]]
+        return [tn_source,tn_freqs,fetched1[0],fetched1[1],fetched1[2],fetched1[3],cand_articleNum_dict[tn_candidate], totArtic, distSource]
     except IOError as e:
         print(e)
 
@@ -216,45 +177,7 @@ def bp(bp_candidate):
     except IOError as e:
         print(e)
 
-#----------------------------------------------------------------------------------
-#| Creating a heatmap presenting probability an article from a news source appears|
-#| in a particular position                                                       |
-#----------------------------------------------------------------------------------
 
-def pHeatmap():
-    '''
-        Returns a dictionary mapping the news source names as keys to a list
-        containing 10 elements representing the likelihood that given position X
-        (1-10), we see article form that news source there.
-    '''
-    try:
-        mydb = pymysql.connect(
-            host = "jsirait.mysql.pythonanywhere-services.com",
-            user = "jsirait",
-            password = "midnightjasmine",
-            database = "jsirait$election2020"
-        )
-        mycursor = mydb.cursor()
-        fin = {}
-
-        for pNewsSource in top_tier:
-            likelihoods = [0,0,0,0,0,0,0,0,0,0]
-            for ii in range(0,10):
-                mycursor.execute("select count(URL) from thirtyCandidates where domain=(%s) and story_position=(%s);",(pNewsSource,ii+1))
-                numObserved = mycursor.fetchall()[0][0]
-                mycursor.execute("select count(URL) from thirtyCandidates where story_position=(%s);",(ii+1,))
-                totalObserved = mycursor.fetchall()[0][0]
-                llhood = round((numObserved/totalObserved),2)
-                likelihoods[ii]=llhood
-            fin[pNewsSource]=likelihoods
-        mycursor.close()
-        mydb.close()
-        fin1 = list(fin.items())
-        pforz = [ii[1] for ii in fin1]
-        pfory = [ii[0] for ii in fin1]
-        return (pfory,pforz)
-    except IOError as e:
-        print(e)
 
 
 @app.route('/')
@@ -352,6 +275,8 @@ def specCand(username):
     state = sc_data[3]
     occupation = sc_data[4]
     photo_link = sc_data[5]
+    numTotArtic = sc_data[7]
+    numDistSource = sc_data[8]
 
     bp_data = bp(username)
     graph1 = dict(
@@ -367,8 +292,14 @@ def specCand(username):
             )
         )
     return render_template('specificCandidate.html', username=username, graph=graph,
-        party=party, state=state, occupation=occupation, num_articles=sc_data[6], totalArticlesNum=totalArticlesNum,
-        graph1 = graph1, photo_link = photo_link)
+        party=party, state=state, occupation=occupation, numDistArtic=sc_data[6],
+        graph1 = graph1, photo_link = photo_link, numTotArtic = numTotArtic,
+        numDistSource = numDistSource)
+
+
+@app.route('/<newssource>')
+def specSource(newssource):
+    return render_template('specificNewsSource.html', newssource=newssource)
 
 if __name__ == '__main__':
     app.run(port=9990)
